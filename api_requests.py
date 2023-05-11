@@ -2,6 +2,7 @@ import requests
 from PIL import Image
 from io import BytesIO
 import base64
+import json
 
 
 def getImage(image_id):
@@ -38,3 +39,18 @@ def uploadImage(file_path, image_id):
 
     # send post request
     requests.post(url, json=body)
+
+
+def listImages():
+    # api GET endpoint
+    url = "https://5p53jt8p6e.execute-api.us-west-2.amazonaws.com/images/list"
+
+    # extracts list of image keys from response
+    image_list = json.loads(requests.get(url).json()['data'])
+
+    # print each image key
+    for image in image_list:
+        print(image)
+
+    # return the list
+    return image_list
